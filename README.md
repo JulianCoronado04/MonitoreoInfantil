@@ -59,3 +59,57 @@ monitoreo-infantil
 
 ## License
 This project is licensed under the MIT License.
+
+## Run with Docker (recommended for reproducible dev)
+
+This repository includes a `Dockerfile` and `docker-compose.yml` that build the app in a Python 3.11 image and install the Microsoft ODBC driver so `pyodbc` works inside the container.
+
+Quick start (PowerShell):
+
+```powershell
+# Build images and start the app + SQL Server (example uses docker-compose)
+docker compose up --build
+
+# Wait for SQL Server to initialize (the DB container can take ~20-30s on first run).
+
+# Open http://localhost:5000 in your browser.
+```
+
+Notes:
+- The included `docker-compose.yml` launches a SQL Server container (`mcr.microsoft.com/mssql/server`) with an example SA password `Your_strong!Passw0rd` and sets `MSSQL_CONN` in the `web` service so the Flask app can connect to the database.
+- For local development change the SA password to something secure and update `docker-compose.yml` or set `MSSQL_CONN` explicitly as an environment variable.
+
+Example `MSSQL_CONN` (used in the compose file):
+
+```
+DRIVER={ODBC Driver 18 for SQL Server};SERVER=db,1433;DATABASE=master;UID=sa;PWD=Your_strong!Passw0rd;TrustServerCertificate=yes
+```
+
+Creating a sample table and data (inside the running DB container):
+
+```powershell
+# Run an interactive sqlcmd inside the DB container (after db is healthy)
+docker exec -it mi_mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Your_strong!Passw0rd"
+
+-- then in sqlcmd run:
+CREATE DATABASE monitoreo;
+GO
+USE monitoreo;
+GO
+CREATE TABLE personas (
+   id_number NVARCHAR(50) PRIMARY KEY,
+   nombre NVARCHAR(100),
+   apellido NVARCHAR(100),
+   fecha_nacimiento DATE
+);
+GO
+INSERT INTO personas (id_number, nombre, apellido, fecha_nacimiento) VALUES ('1023344558','Julian','Coronado','2010-05-12');
+GO
+EXIT
+```
+
+Security / production notes:
+- The compose file and Docker setup here are for local development and demos. Do not use the example SA password in production.
+- For production, provision SQL Server separately, secure credentials with a secrets manager or environment variables, and run the Flask app behind a proper web server + TLS.
+
+If you want, puedo construir y probar la imagen Docker aquí (si me indicas que quieres que lo intente), o puedo ajustar el `docker-compose.yml` para apuntar a una base de datos existente.

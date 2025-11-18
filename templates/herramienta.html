@@ -35,41 +35,14 @@
           Interactúa con la herramienta. Ingresa el número de identidad para acceder a la información del registro.
         </p>
 
-        <form method="post" class="card card-lg shadow-sm p-4 form-panel">
+        <div class="card card-lg shadow-sm p-4 form-panel">
           <div class="row g-3">
-            <!-- Espacio 1: Numero de identidad -->
-            <div class="col-12">
-              <label for="id_number" class="form-label fw-semibold">Número de identidad</label>
-              <input id="id_number" name="id_number" type="text" class="form-control form-control-lg" placeholder="Ej. 1023344558" value="{{ id_number or '' }}" required>
+            <div class="col-12 text-center">
+              <p class="lead">Dashboard integrado de Power BI</p>
             </div>
-
-            <!-- Espacio 2: Campo adicional (diseño) -->
-            <div class="col-md-6">
-              <label class="form-label">Nombre</label>
-              <input type="text" class="form-control" placeholder="Opcional">
-            </div>
-
-            <!-- Espacio 3: Campo adicional (diseño) -->
-            <div class="col-md-6">
-              <label class="form-label">Primer Apellido</label>
-              <input type="text" class="form-control" placeholder="Opcional">
-            </div>
-
-            <div class="col-12 text-center mt-2">
-              <button type="submit" class="btn btn-primary btn-lg px-5 transition">Buscar</button>
-              <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg ms-2">Volver</a>
-            </div>
-
-            {% if id_number %}
-            <div class="col-12 mt-4">
-              <div class="alert alert-success mb-0">
-                Resultado de búsqueda para <strong>{{ id_number }}</strong> — (aquí puedes conectar la lógica para mostrar datos reales)
-              </div>
-            </div>
-            {% endif %}
 
             {% if powerbi_url %}
-            <div class="col-12 mt-4">
+            <div class="col-12 mt-2">
               <div class="card shadow-sm p-3">
                 <h5 class="mb-3">Dashboard Power BI</h5>
                 <div class="ratio ratio-16x9">
@@ -78,9 +51,13 @@
                 <small class="text-muted d-block mt-2">Dashboard disponible para consulta.</small>
               </div>
             </div>
+            {% else %}
+            <div class="col-12">
+              <div class="alert alert-warning">No se encontró la URL del dashboard. Configure la variable de entorno <code>POWERBI_EMBED_URL</code>.</div>
+            </div>
             {% endif %}
           </div>
-        </form>
+        </div>
 
       </div>
     </div>

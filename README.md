@@ -52,6 +52,25 @@ monitoreo-infantil
 - **Navigation Menu**: A fixed top navigation menu allows easy access to different sections of the application.
 - **Interactive Elements**: Smooth scrolling and hover effects enhance user experience.
 
+## Power BI integration
+You can embed a Power BI report into the `Herramienta` page. The application reads the embed URL from the environment variable `POWERBI_EMBED_URL`. If not set, a default public embed URL provided by the project authors will be used.
+
+To set the embed URL in Windows PowerShell (temporary for the session):
+```powershell
+$env:POWERBI_EMBED_URL = 'https://app.powerbi.com/view?r=<your-embed-token-or-id>'
+```
+
+Then run the app as usual:
+```powershell
+# Activate venv (Windows)
+venv\Scripts\activate
+python app.py
+```
+
+Notes:
+- If your Power BI report is published with "Publish to web" (public), embedding via iframe is straightforward.
+- For private reports or if you need role-level security, consider using the Power BI secure embed flow (requires Azure AD app registration and server-side token generation). If you want, I can help implement the secure embed flow.
+
 ## Authors
 - Julian David Coronado
 - Cristian Leonardo Moscoso

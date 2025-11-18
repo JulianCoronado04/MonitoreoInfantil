@@ -68,9 +68,19 @@
     <div class="container">
       <h2 class="mb-3">Diagramas</h2>
       <p>Los diagramas ayudan a visualizar el funcionamiento y la estructura del proyecto.</p>
-      <div class="diagram-placeholder mt-4">
-        <div class="placeholder-box text-center p-5">
-          <span class="text-muted">Espacio para diagramas / imágenes</span>
+      <div class="row mt-4 g-3">
+        <div class="col-12 col-md-6">
+          <div class="card p-2 shadow-sm">
+            <img src="{{ url_for('static', filename='img/diagram1.png') }}" class="img-fluid" alt="Diagrama 1">
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="card p-2 shadow-sm">
+            <img src="{{ url_for('static', filename='img/diagram2.png') }}" class="img-fluid" alt="Diagrama 2">
+          </div>
+        </div>
+        <div class="col-12 mt-3">
+          <small class="text-muted">Si las imágenes no aparecen, coloca los archivos `diagram1.png` y `diagram2.png` dentro de `static/img/`.</small>
         </div>
       </div>
     </div>
